@@ -3,10 +3,11 @@
     <div class="swiper" @touchstart=touchStart @touchmove="touchMove" @touchend="touchEnd">
       <slot></slot>
     </div>
-    <slot name="indicator"></slot>
+    <slot name="indicator">
+    </slot>
     <div class="indicator">
       <slot name="indicator" v-if="showIndicator && slideCount>1">
-        <div v-for="(item,index) in slideCount" class="indi-item" :class="{active: index==currentIndex-1}" :key="index"></div>
+        <div v-for="(item,index) in slideCount" class="indi-item" :class="{active: index===currentIndex-1}" :key="index"></div>
       </slot>
     </div>
   </div>
@@ -42,33 +43,33 @@
         scrolling: false  //是否正在滚动
       }
     },
-    mounted: function (){
+    mounted (){
       setTimeout(() => {
         this.handleDom()   /*1.操作dom，在前后添加slide*/
         this.startTimer()  /*2.开启定时器*/
-      },100)
+      },3000)
     },
     methods: {
       /**
        * 定时器操作
        */
-      startTimer: function () {
+      startTimer () {
         this.playTimer = window.setInterval(() => {
           this.currentIndex++
           this.scrollContent(-this.currentIndex * this.totalWidth)
         },this.interval)
       },
-      stopTimer: function () {
+      stopTimer () {
         window.clearInterval(this.playTimer)
       },
       /**
        * 滚到正确位置
        */
-      scrollContent: function (currentPosition) {
+      scrollContent (currentPosition) {
         //1.设置正在滚动
         this.scrolling = true
         //2.开始滚动动画
-        this.swiperStyle.transaction = 'transform '+ this.animDuration + 'ms'
+        this.swiperStyle.transition = 'transform '+ this.animDuration + 'ms'
         this.setTransform(currentPosition)
         //3.判断滚动到的位置
         this.checkPosition()
@@ -78,10 +79,10 @@
       /**
        * 校验正确的位置
        */
-      checkPosition: function () {
+      checkPosition () {
         window.setTimeout(() => {
           //1.校验正确的位置
-          this.swiperStyle.transaction = '0ms'
+          this.swiperStyle.transition = '0ms'
           if(this.currentIndex >= this.slideCount + 1){
             this.currentIndex = 1
             this.setTransform(-this.currentIndex * this.totalWidth)

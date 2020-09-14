@@ -3,27 +3,67 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <swiper>
-      <swiper-item v-for="(item,index) in banners" :key="index">
-        <a :href="item.link">
-          <img :src="item.image" alt="">
-        </a>
-      </swiper-item>
-    </swiper>
+    <home-swiper :banners="banners"/>   <!--父传子-->
+    <home-recommend-view :recommends="recommends"/>
+    <home-feature-view/>
+    <tab-control :titles="['流行','新款','精选']" class="tab-control"/>
+
+    <ul>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+      <li>1</li>
+    </ul>
   </div>
 </template>
 
 <script>
-  import NavBar from "../../components/common/navbar/NavBar";
-  import {getHomeMultidata} from "../../network/home";
-  import {Swiper,SwiperItem} from 'components/common/swiper'
+  import HomeSwiper from "./childComps/HomeSwiper";    /*子组件*/
+  import HomeRecommendView from "./childComps/HomeRecommendView";
+  import HomeFeatureView from "./childComps/HomeFeatureView";
+
+  import NavBar from "../../components/common/navbar/NavBar";   /*公共组件*/
+  import TabControl from "../../components/content/tabControl/TabControl";
+
+  import {getHomeMultidata} from "../../network/home";   /*导入函数*/
+
 
   export default {
     name: "Home",
     components: {
       NavBar,
-      Swiper,
-      SwiperItem
+      TabControl,
+      HomeSwiper,
+      HomeRecommendView,
+      HomeFeatureView,
+
     },
     data() {
       return {
@@ -45,8 +85,22 @@
 </script>
 
 <style scoped>
+  #home {
+    padding-top: 44px;  /*position后脱离文档流，留出预留空间*/
+  }
   .home-nav {
     background-color: var(--color-tint);
     color: white;
+
+    position: fixed;   /*固定于顶部*/
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 2;
+  }
+
+  .tab-control {   /*吸顶样式设置*/
+    position: sticky;
+    top: 44px;
   }
 </style>
