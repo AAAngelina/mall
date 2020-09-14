@@ -7,52 +7,24 @@
     <home-recommend-view :recommends="recommends"/>
     <home-feature-view/>
     <tab-control :titles="['流行','新款','精选']" class="tab-control"/>
-
-    <ul>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-    </ul>
+    <goods-list :goods="goods['pop'].list"/>
   </div>
 </template>
 
 <script>
-  import HomeSwiper from "./childComps/HomeSwiper";    /*子组件*/
+  /*子组件*/
+  import HomeSwiper from "./childComps/HomeSwiper";
   import HomeRecommendView from "./childComps/HomeRecommendView";
   import HomeFeatureView from "./childComps/HomeFeatureView";
 
-  import NavBar from "../../components/common/navbar/NavBar";   /*公共组件*/
+  /*公共组件*/
+  import NavBar from "../../components/common/navbar/NavBar";
   import TabControl from "../../components/content/tabControl/TabControl";
+  import GoodsList from "../../components/content/goods/GoodsList";
 
-  import {getHomeMultidata} from "../../network/home";   /*导入函数*/
+
+  /*导入函数*/
+  import {getHomeMultidata,getHomeGoods} from "../../network/home";
 
 
   export default {
@@ -60,26 +32,45 @@
     components: {
       NavBar,
       TabControl,
+      GoodsList,
       HomeSwiper,
       HomeRecommendView,
       HomeFeatureView,
-
     },
     data() {
       return {
         banners: [],
-       /* dKeyword: [],
-        keywords: [],*/
-        recommends: []
+        recommends: [],
+        goods: {
+          'pop': {page: 0, list: []},  /*流行数据*/
+          'new': {page: 0, list: []},
+          'sell': {page: 0, list: []}
+        }
       }
     },
     created() {
-      getHomeMultidata().then(res => {  //请求数据
-        this.banners = res.data.banner.list
-        /*this.dKeyword = res.data.dKeyword
-        this.keywords = res.data.keywords*/
-        this.recommends = res.data.recommend.list
-      })
+      this.getHomeMultidata()
+
+      this.getHomeGoods('pop')
+      this.getHomeGoods('new')
+      this.getHomeGoods('sell')
+    },
+    methods: {
+      /*请求数据*/
+      getHomeMultidata() {
+        getHomeMultidata().then(res => {
+          this.banners = res.data.banner.list
+          this.recommends = res.data.recommend.list
+        })
+      },
+      /*请求商品数据*/
+      getHomeGoods(type) {
+        const page = this.goods[type].page + 1  //获取页码
+        this.goods[type].page ++
+        getHomeGoods(type, page).then(res => {
+          this.goods[type].list.push(...res.data.list)   //解构压入
+        })
+      }
     }
   }
 </script>
@@ -102,5 +93,6 @@
   .tab-control {   /*吸顶样式设置*/
     position: sticky;
     top: 44px;
+    z-index: 3;
   }
 </style>
