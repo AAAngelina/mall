@@ -27,6 +27,7 @@
     methods: {
       itemClick(index) {
         this.currentIndex = index
+        this.$emit('tabClick',index)   /*子传父*/
       }
     }
   }

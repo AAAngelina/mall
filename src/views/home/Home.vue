@@ -6,8 +6,9 @@
     <home-swiper :banners="banners"/>   <!--父传子-->
     <home-recommend-view :recommends="recommends"/>
     <home-feature-view/>
-    <tab-control :titles="['流行','新款','精选']" class="tab-control"/>
-    <goods-list :goods="goods['pop'].list"/>
+    <tab-control :titles="['流行','新款','精选']" class="tab-control"
+                 @tabClick="tabClick"/>  <!--监听子组件触发的事件-->
+    <goods-list :goods="showGoods"/>
   </div>
 </template>
 
@@ -45,7 +46,13 @@
           'pop': {page: 0, list: []},  /*流行数据*/
           'new': {page: 0, list: []},
           'sell': {page: 0, list: []}
-        }
+        },
+        currentType: 'pop'
+      }
+    },
+    computed: {
+      showGoods() {
+        return this.goods[this.currentType].list
       }
     },
     created() {
@@ -56,14 +63,30 @@
       this.getHomeGoods('sell')
     },
     methods: {
-      /*请求数据*/
+      /**
+       * 事件监听
+       */
+      tabClick(index) {
+        switch (index) {
+          case 0:
+            this.currentType = 'pop'
+            break
+          case 1:
+            this.currentType = 'new'
+            break
+          case 2:
+            this.currentType = 'sell'
+        }
+      },
+      /**
+       * 网络请求
+       */
       getHomeMultidata() {
         getHomeMultidata().then(res => {
           this.banners = res.data.banner.list
           this.recommends = res.data.recommend.list
         })
       },
-      /*请求商品数据*/
       getHomeGoods(type) {
         const page = this.goods[type].page + 1  //获取页码
         this.goods[type].page ++
