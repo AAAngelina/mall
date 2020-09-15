@@ -31,7 +31,7 @@
       this.scroll = new BScroll(this.$refs.wrapper,{
         click: true,  /*使得scroll内部元素div/span等可点击*/
         probeType: this.probeType,  /*是否实时监听滚动位置*/
-        pullUpLoad: this.pullUpLoad
+        pullUpLoad: this.pullUpLoad  /*上拉加载*/
       })
 
       //2.监听滚动位置
