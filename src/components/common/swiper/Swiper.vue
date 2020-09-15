@@ -47,7 +47,7 @@
       setTimeout(() => {
         this.handleDom()   /*1.操作dom，在前后添加slide*/
         this.startTimer()  /*2.开启定时器*/
-      },3000)
+      },500)
     },
     methods: {
       /**

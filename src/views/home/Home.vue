@@ -3,12 +3,15 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners="banners"/>   <!--父传子-->
-    <home-recommend-view :recommends="recommends"/>
-    <home-feature-view/>
-    <tab-control :titles="['流行','新款','精选']" class="tab-control"
-                 @tabClick="tabClick"/>  <!--监听子组件触发的事件-->
-    <goods-list :goods="showGoods"/>
+
+    <scroll class="content">   <!--使用封装的better-scroll-->
+      <home-swiper :banners="banners"/>   <!--父传子-->
+      <home-recommend-view :recommends="recommends"/>
+      <home-feature-view/>
+      <tab-control :titles="['流行','新款','精选']" class="tab-control"
+                   @tabClick="tabClick"/>  <!--监听子组件触发的事件-->
+      <goods-list :goods="showGoods"/>
+    </scroll>
   </div>
 </template>
 
@@ -22,6 +25,7 @@
   import NavBar from "../../components/common/navbar/NavBar";
   import TabControl from "../../components/content/tabControl/TabControl";
   import GoodsList from "../../components/content/goods/GoodsList";
+  import Scroll from "../../components/common/scroll/Scroll";
 
 
   /*导入函数*/
@@ -34,6 +38,7 @@
       NavBar,
       TabControl,
       GoodsList,
+      Scroll,
       HomeSwiper,
       HomeRecommendView,
       HomeFeatureView,
@@ -100,12 +105,13 @@
 
 <style scoped>
   #home {
-    padding-top: 44px;  /*position后脱离文档流，留出预留空间*/
+   /* padding-top: 44px;  !*position后脱离文档流，留出预留空间*!*/
+    height: 100vh;   /*viewport height,视口*/
+    position: relative;
   }
   .home-nav {
     background-color: var(--color-tint);
     color: white;
-
     position: fixed;   /*固定于顶部*/
     left: 0;
     top: 0;
@@ -117,5 +123,14 @@
     position: sticky;
     top: 44px;
     z-index: 3;
+  }
+
+  .content {
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0;
+    right: 0;
   }
 </style>
