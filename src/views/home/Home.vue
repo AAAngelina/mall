@@ -4,7 +4,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content">   <!--使用封装的better-scroll-->
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">   <!--使用封装的better-scroll-->
       <home-swiper :banners="banners"/>   <!--父传子-->
       <home-recommend-view :recommends="recommends"/>
       <home-feature-view/>
@@ -12,6 +12,7 @@
                    @tabClick="tabClick"/>  <!--监听子组件触发的事件-->
       <goods-list :goods="showGoods"/>
     </scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop"/>  <!--监听组件根元素的原生事件，添加.native修饰符-->
   </div>
 </template>
 
@@ -26,6 +27,7 @@
   import TabControl from "../../components/content/tabControl/TabControl";
   import GoodsList from "../../components/content/goods/GoodsList";
   import Scroll from "../../components/common/scroll/Scroll";
+  import BackTop from "../../components/content/backTop/BackTop";
 
 
   /*导入函数*/
@@ -39,6 +41,7 @@
       TabControl,
       GoodsList,
       Scroll,
+      BackTop,
       HomeSwiper,
       HomeRecommendView,
       HomeFeatureView,
@@ -52,7 +55,8 @@
           'new': {page: 0, list: []},
           'sell': {page: 0, list: []}
         },
-        currentType: 'pop'
+        currentType: 'pop',
+        isShowBackTop: false
       }
     },
     computed: {
@@ -83,6 +87,18 @@
             this.currentType = 'sell'
         }
       },
+      backClick() {
+        /*this.$refs.scroll.scroll.scrollTo(0,0,600)   /!*拿到scroll组件里的scroll；将位置设置到0，0;时间为600*!/*/
+        this.$refs.scroll.scrollTo(0,0,600)  /*直接调scroll组件的scrollTo方法*/
+      },
+      contentScroll(position) {
+        /*if(-position.y > 1000) {
+          this.isShowBackTop = true
+        } else {
+          this.isShowBackTop = false
+        }*/
+        this.isShowBackTop = (-position.y) > 1000
+      },
       /**
        * 网络请求
        */
@@ -105,7 +121,7 @@
 
 <style scoped>
   #home {
-   /* padding-top: 44px;  !*position后脱离文档流，留出预留空间*!*/
+    padding-top: 44px;  /*position后脱离文档流，留出预留空间*/
     height: 100vh;   /*viewport height,视口*/
     position: relative;
   }
