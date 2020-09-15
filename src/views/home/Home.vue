@@ -74,10 +74,11 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
-
+    },
+    mounted() {
       //事件总线，监听item中图片加载完成
       this.$bus.$on('itemImageLoad', () => {
-        this.$refs.scroll.refresh()
+          this.$refs.scroll.refresh()
       })
     },
     methods: {

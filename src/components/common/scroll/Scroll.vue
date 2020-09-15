@@ -46,13 +46,13 @@
     },
     methods: {
       scrollTo(x,y,time=600) {
-        this.scroll.scrollTo(x,y,time)
+        this.scroll && this.scroll.scrollTo(x,y,time)    /*先判断scroll对象有没有被创建*/
       },
       finishPullUp() {
         this.scroll.finishPullUp()
       },
       refresh() {          /*重新计算 可滚动得区域*/
-        this.scroll.refresh()
+        this.scroll && this.scroll.refresh()
       }
     }
   }
