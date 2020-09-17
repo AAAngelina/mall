@@ -3,11 +3,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+
     <tab-control :titles="['流行','新款','精选']"
-                 ref="tabControl"
+                 ref="tabControl1"
                  @tabClick="tabClick"
                  class="tab-control"
-                 v-show="isTabFixed"/>          <!--占位技巧-->
+                 v-show="isTabFixed"/>          <!--占位技巧，要不要显示-->
+
     <scroll class="content" ref="scroll"
             :probe-type="3"
             @scroll="contentScroll"
@@ -18,7 +20,7 @@
       <home-recommend-view :recommends="recommends"/>
       <home-feature-view/>
       <tab-control :titles="['流行','新款','精选']"
-                   ref="tabControl"
+                   ref="tabControl2"
                    @tabClick="tabClick"/>
       <goods-list :goods="showGoods"/>
     </scroll>
@@ -106,6 +108,8 @@
           case 2:
             this.currentType = 'sell'
         }
+        this.$refs.tabControl1.currentIndex = index      /*保持两个tabControl的点击事件一致*/
+        this.$refs.tabControl2.currentIndex = index
       },
       backClick() {
         /*this.$refs.scroll.scroll.scrollTo(0,0,600)   /!*拿到scroll组件里的scroll；将位置设置到0，0;时间为600*!/*/
@@ -122,7 +126,7 @@
         this.$refs.scroll.refresh()
       },
       swiperImageLoad() {
-        this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop
+        this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
       },
       /**
        * 网络请求
