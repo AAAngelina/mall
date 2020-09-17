@@ -36,6 +36,7 @@
 
   /*导入函数*/
   import {getHomeMultidata,getHomeGoods} from "../../network/home";
+  import {debounce} from "../../common/utils";
 
 
   export default {
@@ -77,7 +78,7 @@
     },
     mounted() {
       //事件总线，监听item中图片加载完成
-      const refresh = this.debounce(this.$refs.scroll.refresh,500)
+      const refresh = debounce(this.$refs.scroll.refresh,500)
       this.$bus.$on('itemImageLoad', () => {
         refresh()
       })
@@ -86,15 +87,7 @@
       /**
        * 事件监听
        */
-      debounce(func,delay) {  /*refresh防抖函数,返回新的函数*/
-        let timer = null
-        return function (...args) {
-          if(timer)  clearInterval(timer)
-          timer = setTimeout(() => {
-            func.apply(this,args)
-          },delay)
-        }
-      },
+
       tabClick(index) {
         switch (index) {
           case 0:
