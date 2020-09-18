@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <keep-alive>   <!--视图被缓存不被销毁，避免重新渲染-->
+    <keep-alive exclude="Detail">   <!--视图被缓存不被销毁，避免重新渲染;将Detail组件除外-->
       <router-view/>
     </keep-alive>
     <main-tab-bar/>
