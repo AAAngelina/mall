@@ -57,6 +57,9 @@
       },
       refresh() {          /*重新计算 可滚动得区域*/
         this.scroll && this.scroll.refresh()
+      },
+      getScrollY() {   //返回滚动到的位置
+        return this.scroll ? this.scroll.y : 0
       }
     }
   }

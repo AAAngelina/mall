@@ -71,7 +71,8 @@
         currentType: 'pop',
         isShowBackTop: false,
         tabOffsetTop: 0,
-        isTabFixed: false  /*是否吸顶*/
+        isTabFixed: false,  /*是否吸顶*/
+        saveY: 0
       }
     },
     computed: {
@@ -92,6 +93,13 @@
       this.$bus.$on('itemImageLoad', () => {
         refresh()
       })
+    },
+    activated() {      /*进入该页面时调用*/
+      this.$refs.scroll.scrollTo(0,this.saveY,0)
+      this.$refs.scroll.refresh()
+    },
+    deactivated() {    /*离开时调用*/
+      this.saveY = this.$refs.scroll.getScrollY()
     },
     methods: {
       /**
@@ -173,6 +181,8 @@
     left: 0;
     right: 0;
   }
+
+  /*tabControl2虽然设置fixed，但也会随着better-scroll一起滚出屏幕；因此在最上面多复制了一个tabcontrol1*/
   .tab-control {
     position: relative;
     z-index: 5;

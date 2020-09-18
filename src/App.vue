@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive>   <!--视图被缓存不被销毁，避免重新渲染-->
+      <router-view/>
+    </keep-alive>
     <main-tab-bar/>
   </div>
 </template>
