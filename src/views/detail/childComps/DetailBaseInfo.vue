@@ -39,7 +39,7 @@
     margin-top: 15px;
     padding: 0 8px;
     color: #999999;
-    boder-bottom: 5px solid #f84772;
+    border-bottom: 5px solid #f2f5f8;
   }
   .info-title {
     color: #222222;

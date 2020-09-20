@@ -9,7 +9,7 @@ export function getDetail(iid) {    /*获取数据*/
   })
 }
 
-export class BaseInfo {                    /*将复杂的数据封装到一个类*/
+export class BaseInfo {                    /*将复杂的数据封装到一个类,商品基本信息类*/
   constructor(itemInfo,colums,services) {
     this.title = itemInfo.title
     this.desc = itemInfo.desc
@@ -19,5 +19,16 @@ export class BaseInfo {                    /*将复杂的数据封装到一个�
     this.discount = itemInfo.discountDesc
     this.columns = colums
     this.services = services
+  }
+}
+
+export class Shop {   /*店铺*/
+  constructor(shopInfo) {
+    this.logo = shopInfo.shopLogo
+    this.name = shopInfo.name
+    this.fans = shopInfo.cFans
+    this.sells = shopInfo.cSells
+    this.score = shopInfo.score
+    this.goodsCount = shopInfo.cGoods
   }
 }
