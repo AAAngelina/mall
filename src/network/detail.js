@@ -32,3 +32,11 @@ export class Shop {   /*店铺*/
     this.goodsCount = shopInfo.cGoods
   }
 }
+
+export class GoodsParam {   /*商品参数*/
+  constructor(info,rule) {
+    this.image = info.images ? info.images[0] : '';
+    this.infos = info.set;
+    this.sizes = rule.tables;
+  }
+}
