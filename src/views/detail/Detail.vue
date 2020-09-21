@@ -1,9 +1,11 @@
 <template>
   <div id="detail">
-    <detail-nav-bar/>
-    <detail-swiper :top-images="topImages"/>
-    <detail-base-info :base-info="baseInfo"/>
-    <detail-shop-info :shop="shop"/>
+    <detail-nav-bar class="detail-nav"/>
+    <scroll class="detail-content">
+      <detail-swiper :top-images="topImages"/>
+      <detail-base-info :base-info="baseInfo"/>
+      <detail-shop-info :shop="shop"/>
+    </scroll>
   </div>
 </template>
 
@@ -13,6 +15,8 @@
   import DetailBaseInfo from "./childComps/DetailBaseInfo";
   import DetailShopInfo from "./childComps/DetailShopInfo";
 
+  import Scroll from "components/common/scroll/Scroll";
+
   import {getDetail,BaseInfo,Shop} from "network/detail";
 
   export default {
@@ -21,7 +25,8 @@
       DetailNavBar,
       DetailSwiper,
       DetailBaseInfo,
-      DetailShopInfo
+      DetailShopInfo,
+      Scroll
     },
     data() {
       return {
@@ -50,7 +55,16 @@
 <style scoped>
   #detail {   /*显示在上层，不被覆盖*/
     position: relative;
-    z-index: 5;
+    z-index: 9;
     background-color: #ffffff;
+    height: 100vh;
+  }
+  .detail-nav {
+    position: relative;
+    z-index: 9;
+    background-color: #ffffff;
+  }
+  .detail-content {  /*设置固定高度*/
+    height: calc(100% - 44px);  /*100%相对于父元素*/
   }
 </style>
