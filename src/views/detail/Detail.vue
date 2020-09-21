@@ -4,12 +4,6 @@
     <detail-swiper :top-images="topImages"/>
     <detail-base-info :base-info="baseInfo"/>
     <detail-shop-info :shop="shop"/>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
   </div>
 </template>
 
@@ -54,5 +48,9 @@
 </script>
 
 <style scoped>
-
+  #detail {   /*显示在上层，不被覆盖*/
+    position: relative;
+    z-index: 5;
+    background-color: #ffffff;
+  }
 </style>
