@@ -1,8 +1,8 @@
 <template>
   <div id="detail">
     <detail-nav-bar class="detail-nav"/>
-    <scroll class="detail-content">
-      <detail-swiper :top-images="topImages"/>
+    <scroll class="detail-content" ref="scroll">
+      <detail-swiper :top-images="topImages" @imgLoad="imgLoad"/>
       <detail-base-info :base-info="baseInfo"/>
       <detail-shop-info :shop="shop"/>
     </scroll>
@@ -48,6 +48,11 @@
         /*获取店铺信息*/
         this.shop = new Shop(data.shopInfo)
       })
+    },
+    methods: {
+      imgLoad() {
+        this.$refs.scroll.refresh()
+      }
     }
   }
 </script>

@@ -33,7 +33,7 @@
       imageLoad() {       /*只发出一次事件*/
         if(!this.isLoad) {
           this.$emit('swiperImageLoad')
-          this.isLoad = false
+          this.isLoad = true
         }
       }
     }
