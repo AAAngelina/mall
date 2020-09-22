@@ -27,6 +27,7 @@
   import GoodsList from "components/content/goods/GoodsList";
 
   import {getDetail,BaseInfo,Shop,GoodsParam,getRecommend} from "network/detail";
+  import {itemListenerMixin} from "../../common/mixin";
 
   export default {
     name: "Detail",
@@ -42,6 +43,7 @@
       GoodsList,
       Scroll
     },
+    mixins: [itemListenerMixin],
     data() {
       return {
         id: null,
@@ -51,7 +53,8 @@
         detailInfo: {},
         paramInfo: {},
         commentInfo: {},
-        recommends: []
+        recommends: [],
+        itemImgListener: null
       }
     },
     created() {
@@ -78,6 +81,11 @@
       getRecommend().then(res => {
         this.recommends = res.data.list
       })
+    },
+    mounted() {
+    },
+    destroyed() {
+      this.$bus.$off('itemImageLoad',this.itemImgListener)
     },
     methods: {
       imgLoad() {
