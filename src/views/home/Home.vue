@@ -73,8 +73,7 @@
         isShowBackTop: false,
         tabOffsetTop: 0,
         isTabFixed: false,  /*是否吸顶*/
-        saveY: 0,
-        itemImgListener: null
+        saveY: 0
       }
     },
     computed: {

@@ -1,14 +1,14 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav"/>
+    <detail-nav-bar class="detail-nav" @titleClick="titleClick"/>
     <scroll class="detail-content" ref="scroll">
       <detail-swiper :top-images="topImages" @imgLoad="imgLoad"/>  <!--监听图片加载完成，刷新scrollHeight-->
       <detail-base-info :base-info="baseInfo"/>
       <detail-shop-info :shop="shop"/>
       <detail-goods-info :detail-info="detailInfo" @imagesLoad="imgLoad"/>
-      <detail-param-info :param-info="paramInfo"/>
-      <detail-comment-info :comment-info="commentInfo"/>
-      <goods-list :goods="recommends"/>
+      <detail-param-info ref="params" :param-info="paramInfo"/>
+      <detail-comment-info ref="comment" :comment-info="commentInfo"/>
+      <goods-list ref="recommend" :goods="recommends"/>
     </scroll>
   </div>
 </template>
@@ -28,6 +28,7 @@
 
   import {getDetail,BaseInfo,Shop,GoodsParam,getRecommend} from "network/detail";
   import {itemListenerMixin} from "../../common/mixin";
+  import {debounce} from "../../common/utils";
 
   export default {
     name: "Detail",
@@ -54,7 +55,8 @@
         paramInfo: {},
         commentInfo: {},
         recommends: [],
-        itemImgListener: null
+        themeTopYs: [],
+        getThemeTopY: null
       }
     },
     created() {
@@ -81,6 +83,15 @@
       getRecommend().then(res => {
         this.recommends = res.data.list
       })
+      //4. 对给this.themeTopYs赋值的操作进行防抖
+      this.getThemeTopY = debounce(() => {
+        this.themeTopYs = []
+        this.themeTopYs.push(0)
+        this.themeTopYs.push(this.$refs.params.$el.offsetTop-44)
+        this.themeTopYs.push(this.$refs.comment.$el.offsetTop-44)
+        this.themeTopYs.push(this.$refs.recommend.$el.offsetTop-44)
+        console.log(this.themeTopYs);
+      },200)
     },
     mounted() {
     },
@@ -88,8 +99,12 @@
       this.$bus.$off('itemImageLoad',this.itemImgListener)
     },
     methods: {
+      titleClick(index) {
+        this.$refs.scroll.scrollTo(0,-this.themeTopYs[index],300)
+      },
       imgLoad() {
         this.$refs.scroll.refresh()
+        this.getThemeTopY()
       }
     }
   }
