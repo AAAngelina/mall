@@ -9,6 +9,11 @@ export function getDetail(iid) {    /*获取数据*/
   })
 }
 
+export function getRecommend() {
+  return request({
+    url: '/recommend'
+  })
+}
 export class BaseInfo {                    /*将复杂的数据封装到一个类,商品基本信息类*/
   constructor(itemInfo,colums,services) {
     this.title = itemInfo.title
