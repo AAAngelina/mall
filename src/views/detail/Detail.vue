@@ -163,5 +163,6 @@
   }
   .detail-content {  /*设置固定高度*/
     height: calc(100% - 44px - 58px);  /*100%相对于父元素*/
+    overflow: hidden;
   }
 </style>
