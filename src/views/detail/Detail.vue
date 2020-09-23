@@ -11,6 +11,7 @@
       <detail-comment-info ref="comment" :comment-info="commentInfo"/>
       <goods-list ref="recommend" :goods="recommends"/>
     </scroll>
+    <detail-bottom-bar/>
   </div>
 </template>
 
@@ -22,6 +23,7 @@
   import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
   import DetailParamInfo from "./childComps/DetailParamInfo";
   import DetailCommentInfo from "./childComps/DetailCommentInfo";
+  import DetailBottomBar from "./childComps/DetailBottomBar";
 
   import Scroll from "components/common/scroll/Scroll";
 
@@ -41,6 +43,7 @@
       DetailGoodsInfo,
       DetailParamInfo,
       DetailCommentInfo,
+      DetailBottomBar,
 
       GoodsList,
       Scroll
@@ -145,6 +148,6 @@
     background-color: #ffffff;
   }
   .detail-content {  /*设置固定高度*/
-    height: calc(100% - 44px);  /*100%相对于父元素*/
+    height: calc(100% - 44px - 58px);  /*100%相对于父元素*/
   }
 </style>
