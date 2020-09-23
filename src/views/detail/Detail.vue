@@ -1,7 +1,8 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav" @titleClick="titleClick"/>
-    <scroll class="detail-content" ref="scroll">
+    <detail-nav-bar class="detail-nav" @titleClick="titleClick" ref="nav"/>
+    <scroll class="detail-content" ref="scroll"
+            :probeType="3" @scroll="contentScroll">
       <detail-swiper :top-images="topImages" @imgLoad="imgLoad"/>  <!--监听图片加载完成，刷新scrollHeight-->
       <detail-base-info :base-info="baseInfo"/>
       <detail-shop-info :shop="shop"/>
@@ -56,7 +57,8 @@
         commentInfo: {},
         recommends: [],
         themeTopYs: [],
-        getThemeTopY: null
+        getThemeTopY: null,
+        currentIndex: 0
       }
     },
     created() {
@@ -87,10 +89,11 @@
       this.getThemeTopY = debounce(() => {
         this.themeTopYs = []
         this.themeTopYs.push(0)
-        this.themeTopYs.push(this.$refs.params.$el.offsetTop-44)
-        this.themeTopYs.push(this.$refs.comment.$el.offsetTop-44)
-        this.themeTopYs.push(this.$refs.recommend.$el.offsetTop-44)
-        console.log(this.themeTopYs);
+        this.themeTopYs.push(this.$refs.params.$el.offsetTop-49)
+        this.themeTopYs.push(this.$refs.comment.$el.offsetTop-49)
+        this.themeTopYs.push(this.$refs.recommend.$el.offsetTop-49)
+        /*console.log(this.themeTopYs);*/
+        this.themeTopYs.push(Number.MAX_VALUE)   /*hack做法，添加一个最大值*/
       },200)
     },
     mounted() {
@@ -99,12 +102,31 @@
       this.$bus.$off('itemImageLoad',this.itemImgListener)
     },
     methods: {
-      titleClick(index) {
+      titleClick(index) {  /*点击标题，滚到对应的位置*/
         this.$refs.scroll.scrollTo(0,-this.themeTopYs[index],300)
       },
       imgLoad() {
         this.$refs.scroll.refresh()
         this.getThemeTopY()
+      },
+      contentScroll(position) {
+        const positionY = -position.y
+        const length = this.themeTopYs.length
+        /*1.for(let i = 0; i < length; i++) {  /!*let i in this.themeTopYs遍历到的i为string类型*!/
+          /!*不一致时，在重新判断范围，重新赋值*!/
+          if(this.currentIndex !== i && ((i < length-1 && positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1])
+                                        || (i === length-1 && positionY >= this.themeTopYs[i]))) {
+            this.currentIndex = i
+            this.$refs.nav.currentIndex = this.currentIndex
+          }
+        }*/
+        /*2.hack做法*/
+        for(let i = 0; i < length-1; i++) {
+          if(this.currentIndex !== i && (positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i+1])) {
+            this.currentIndex = i
+            this.$refs.nav.currentIndex = this.currentIndex
+          }
+        }
       }
     }
   }
