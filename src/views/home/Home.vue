@@ -39,12 +39,12 @@
   import TabControl from "../../components/content/tabControl/TabControl";
   import GoodsList from "../../components/content/goods/GoodsList";
   import Scroll from "../../components/common/scroll/Scroll";
-  import BackTop from "../../components/content/backTop/BackTop";
+
 
 
   /*导入函数*/
   import {getHomeMultidata,getHomeGoods} from "../../network/home";
-  import {itemListenerMixin} from "../../common/mixin";
+  import {itemListenerMixin,backTopMixin} from "../../common/mixin";
 
 
   export default {
@@ -54,12 +54,11 @@
       TabControl,
       GoodsList,
       Scroll,
-      BackTop,
       HomeSwiper,
       HomeRecommendView,
       HomeFeatureView,
     },
-    mixins: [itemListenerMixin],
+    mixins: [itemListenerMixin,backTopMixin],
     data() {
       return {
         banners: [],
@@ -70,7 +69,6 @@
           'sell': {page: 0, list: []}
         },
         currentType: 'pop',
-        isShowBackTop: false,
         tabOffsetTop: 0,
         isTabFixed: false,  /*是否吸顶*/
         saveY: 0
@@ -117,10 +115,6 @@
         }
         this.$refs.tabControl1.currentIndex = index      /*保持两个tabControl的点击事件一致*/
         this.$refs.tabControl2.currentIndex = index
-      },
-      backClick() {
-        /*this.$refs.scroll.scroll.scrollTo(0,0,600)   /!*拿到scroll组件里的scroll；将位置设置到0，0;时间为600*!/*/
-        this.$refs.scroll.scrollTo(0,0,600)  /*直接调scroll组件的scrollTo方法*/
       },
       contentScroll(position) {
         //1.判断backTop是否显示
