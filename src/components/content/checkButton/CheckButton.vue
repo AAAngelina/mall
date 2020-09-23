@@ -22,6 +22,7 @@
    border: 2px solid #aaa;
  }
   .check {
+    background-color: red;
     border-color: red;
   }
 </style>
