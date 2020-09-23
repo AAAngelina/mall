@@ -9,6 +9,6 @@ Vue.prototype.$bus = new Vue()   /*事件总线*/
 
 new Vue({
   router,
-  store,
+  store, /*挂载到vue实例*/
   render: h => h(App)
 }).$mount('#app')
