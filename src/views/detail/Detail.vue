@@ -141,9 +141,9 @@
         product.title = this.baseInfo.title
         product.desc = this.baseInfo.desc
         product.price = this.baseInfo.realPrice
-        product.iid = this.baseInfo.id
+        product.iid = this.id
         //2.添商品加入购物车，Vuex实现
-        this.$store.commit('addCart',product)
+        this.$store.dispatch('addCart',product)  //action
       }
     }
   }
