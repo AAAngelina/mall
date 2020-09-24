@@ -8,7 +8,7 @@
     <div class="price">
       合计:{{totalPrice}}
     </div>
-    <div class="calculate">
+    <div class="calculate" @click="calcClick">
       去计算({{checkedLength}})
     </div>
   </div>
@@ -41,7 +41,11 @@
         if(this.cartList.length === 0)
           return false
         return !this.cartList.find(item => !item.checked)  /*不完全遍历，性能更高*/
+      },
+      unSelected() {
+        return this.cartList.filter(item => item.checked).length === 0
       }
+
     },
     methods: {
       checkAllClick() {
@@ -49,6 +53,11 @@
           this.cartList.forEach(item => item.checked = false)
         } else {   //2.原来未全部选中，点击全部选中
           this.cartList.forEach(item => item.checked = true)
+        }
+      },
+      calcClick() {
+        if(this.unSelected) {
+          this.$toast.show('请选择购买的商品！',2000)
         }
       }
     }
