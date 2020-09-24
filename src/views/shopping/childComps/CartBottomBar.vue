@@ -1,7 +1,7 @@
 <template>
   <div class="bottom-bar">
     <div class="check-content">
-      <check-button class="check-button"/>
+      <check-button class="check-button" :is-checked="isSelectedAll"/>
       <span>全选</span>
     </div>
     <div class="price">
@@ -34,6 +34,12 @@
       },
       checkedLength() {
         return this.cartList.filter(item => item.checked).length
+      },
+      isSelectedAll() {
+        /*1.return !(this.cartList.filter(item => !item.checked).length)   /!*存在没有选中的商品时，返回false*!/*/
+        if(this.cartList.length === 0)
+          return false
+        return !this.cartList.find(item => !item.checked)  /*不完全遍历，性能更高*/
       }
     }
   }
