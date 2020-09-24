@@ -33,6 +33,7 @@
   import {getDetail,BaseInfo,Shop,GoodsParam,getRecommend} from "network/detail";
   import {itemListenerMixin,backTopMixin} from "../../common/mixin";
   import {debounce} from "../../common/utils";
+  import { mapActions } from 'vuex'
 
   export default {
     name: "Detail",
@@ -106,6 +107,8 @@
       this.$bus.$off('itemImageLoad',this.itemImgListener)
     },
     methods: {
+      ...mapActions(['addCart']),
+
       titleClick(index) {  /*点击标题，滚到对应的位置*/
         this.$refs.scroll.scrollTo(0,-this.themeTopYs[index],300)
       },
@@ -142,8 +145,13 @@
         product.desc = this.baseInfo.desc
         product.price = this.baseInfo.realPrice
         product.iid = this.id
-        //2.添商品加入购物车，Vuex实现
-        this.$store.dispatch('addCart',product)  //action
+        /*//2.添商品加入购物车，Vuex实现,action
+        this.$store.dispatch('addCart',product).then(res => {
+          console.log(res);
+        })*/
+        this.addCart(product).then(res => {
+          console.log(res);
+        })
       }
     }
   }
